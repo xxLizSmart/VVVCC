@@ -1,7 +1,6 @@
 import type { Express } from "express";
 import { type Server } from "http";
 import { Server as SocketIOServer, Socket } from "socket.io";
-import { Bonjour } from "bonjour-service";
 import { log } from "./index";
 import { updateUserStats, getUserProfile, updateUserProfile, getAllUsers, deleteUser, createAdminUser, createUser } from "./supabase";
 import { supabaseAdmin } from "./supabase";
@@ -11,7 +10,7 @@ let directionCounts = {
   forward: 0,
 };
 
-let bonjourInstance: Bonjour | null = null;
+let bonjourInstance: any = null;
 
 // Online presence tracking: Map<userId, { socketId, username, lastSeen }>
 const onlineUsers = new Map<string, { socketId: string; username: string; lastSeen: number }>();
@@ -1044,23 +1043,23 @@ export async function registerRoutes(
     res.json({ avatar_url: profile.avatar_url });
   });
 
-  if (process.env.NODE_ENV !== 'production') {
-    try {
-      bonjourInstance = new Bonjour();
-      const port = parseInt(process.env.PORT || "5000", 10);
-
-      bonjourInstance.publish({
-        name: "VSteps Server",
-        type: "vsteps",
-        port: port,
-        txt: { version: "1.0" }
-      });
-
-      log(`mDNS service published: VSteps on port ${port}`, "bonjour");
-    } catch (err) {
-      log(`mDNS publish failed: ${(err as Error).message}`, "bonjour");
-    }
-  }
+  // mDNS/Bonjour disabled - causes async_hooks issues in containerized environments
+  // if (process.env.NODE_ENV !== 'production') {
+  //   try {
+  //     const { Bonjour } = await import("bonjour-service");
+  //     bonjourInstance = new Bonjour();
+  //     const port = parseInt(process.env.PORT || "5000", 10);
+  //     bonjourInstance.publish({
+  //       name: "VSteps Server",
+  //       type: "vsteps",
+  //       port: port,
+  //       txt: { version: "1.0" }
+  //     });
+  //     log(`mDNS service published: VSteps on port ${port}`, "bonjour");
+  //   } catch (err) {
+  //     log(`mDNS publish failed: ${(err as Error).message}`, "bonjour");
+  //   }
+  // }
 
   return httpServer;
 }
