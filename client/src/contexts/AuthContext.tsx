@@ -95,21 +95,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const initAuth = async () => {
       try {
-        const timeoutPromise = new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Auth timeout')), 10000)
-        );
-        
-        const sessionPromise = supabase.auth.getSession();
-        
-        const { data: { session } } = await Promise.race([
-          sessionPromise,
-          timeoutPromise
-        ]) as { data: { session: Session | null } };
-        
+        console.log('Initializing auth...');
+        const { data: { session } } = await supabase.auth.getSession();
+
+        console.log('Session retrieved:', session ? 'User logged in' : 'No session');
         setSession(session);
         setUser(session?.user ?? null);
-        
+
         if (session?.user) {
+          console.log('Fetching profile and stats for user:', session.user.id);
           await Promise.all([
             fetchProfile(session.user.id),
             fetchStats(session.user.id)
@@ -122,10 +116,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setSession(null);
         setUser(null);
       } finally {
+        console.log('Auth initialization complete, setting loading to false');
         setLoading(false);
       }
     };
-    
+
     initAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
