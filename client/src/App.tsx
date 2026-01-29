@@ -21,6 +21,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Dashboard} />
+      <Route path="/dashboard" component={Dashboard} />
       <Route path="/controller" component={StepController} />
       <Route path="/apex-gate" component={ApexGate} />
       <Route path="/login" component={Login} />
