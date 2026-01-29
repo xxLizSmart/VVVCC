@@ -33,8 +33,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Switch } from "@/components/ui/switch";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import logoLight from "@assets/06F81342-FC60-4058-8027-C2D6494406D7_1767917679548.jpeg";
-import logoDark from "@assets/1B4450CA-8E4A-463A-9B90-C7CF7CB576CE_1767917679548.jpeg";
 
 type GameMode = "1v1" | "2v2" | "3v3" | "4v4" | "5v5" | "10v10";
 
@@ -637,8 +635,6 @@ export default function PVP() {
     return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
-  const logo = isDarkMode ? logoDark : logoLight;
-
   const getRequiredPlayers = () => {
     const mode = gameModeOptions.find(m => m.value === gameMode);
     return mode ? mode.players : 2;
@@ -667,7 +663,6 @@ export default function PVP() {
             <Button variant="ghost" size="icon" onClick={() => navigate("/")} data-testid="button-back">
               <ArrowLeft className="w-5 h-5" />
             </Button>
-            <img src={logo} alt="VSteps" className="h-8 w-8 rounded-lg" />
             <div>
               <h1 className="text-lg font-bold flex items-center gap-2">
                 <Skull className="w-5 h-5 text-red-500" />

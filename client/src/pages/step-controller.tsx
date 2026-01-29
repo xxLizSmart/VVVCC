@@ -7,8 +7,6 @@ import { Badge } from "@/components/ui/badge";
 import { Play, Square, Footprints, Wifi, WifiOff, Monitor, Smartphone, ArrowUp, Copy, Check, Link, Zap, Lock, Unlock, Home, User, Target, AlertTriangle, Crosshair, MoveHorizontal, FastForward } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { ThemeToggle } from "@/components/theme-toggle";
-import logoLight from "@assets/06F81342-FC60-4058-8027-C2D6494406D7_1767917679548.jpeg";
-import logoDark from "@assets/1B4450CA-8E4A-463A-9B90-C7CF7CB576CE_1767917679548.jpeg";
 import { io, Socket } from "socket.io-client";
 import { useAuth } from "@/contexts/AuthContext";
 import { apiRequest } from "@/lib/queryClient";
@@ -1779,26 +1777,14 @@ export default function StepController() {
       <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between gap-2">
           <div className="flex items-center gap-3">
-            <Button 
-              variant="ghost" 
-              size="icon" 
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => setLocation('/')}
               data-testid="button-back-dashboard"
             >
               <Home className="w-5 h-5" />
             </Button>
-            <img 
-              src={logoLight} 
-              alt="VSteps Logo" 
-              className="h-8 w-8 object-contain rounded dark:hidden"
-              data-testid="img-logo-light"
-            />
-            <img 
-              src={logoDark} 
-              alt="VSteps Logo" 
-              className="h-8 w-8 object-contain rounded hidden dark:block"
-              data-testid="img-logo-dark"
-            />
             <span className="font-semibold text-lg" data-testid="text-app-name">VSteps</span>
           </div>
           <div className="flex items-center gap-2">

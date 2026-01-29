@@ -6,7 +6,6 @@ import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { UserPlus, LogIn, Mail, Lock, User, Gift, Clock, Loader2 } from 'lucide-react';
-import vstepsLogo from '@assets/VSteps_LOGO_1769337913003.png';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
@@ -139,16 +138,6 @@ export default function Signup() {
       >
         {/* Logo with Subtle Glow */}
         <div className="flex flex-col items-center mb-6">
-          <div 
-            className={`w-20 h-20 rounded-2xl flex items-center justify-center mb-4 overflow-hidden transition-all duration-700 ${
-              mounted ? 'scale-100 opacity-100' : 'scale-90 opacity-0'
-            }`}
-            style={{
-              boxShadow: '0 0 20px rgba(255,0,0,0.25)',
-            }}
-          >
-            <img src={vstepsLogo} alt="VSteps" className="w-full h-full object-cover" />
-          </div>
           <h1 className="text-3xl font-bold tracking-tight text-white">
             VSteps
           </h1>

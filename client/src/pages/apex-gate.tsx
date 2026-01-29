@@ -5,7 +5,6 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Slider } from "@/components/ui/slider";
 import { Play, Square, Home, ArrowUp, ArrowLeft, ArrowRight, Zap, Crosshair, ChevronDown, ChevronUp } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
-import vstepsLogo from "@assets/VSteps_LOGO_1769337913003.png";
 import { io, Socket } from "socket.io-client";
 
 // Apex-Gate Default Thresholds
@@ -486,19 +485,15 @@ export default function Omni() {
       {/* Minimal Header */}
       <header className="flex flex-wrap items-center justify-between gap-2 px-4 py-3">
         <div className="flex flex-wrap items-center gap-3">
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             size="icon"
             onClick={() => setLocation("/")}
             data-testid="button-home"
           >
             <Home className="w-5 h-5" />
           </Button>
-          <img 
-            src={vstepsLogo} 
-            alt="VSteps" 
-            className="h-10 w-auto"
-          />
+          <span className="text-xl font-bold text-white">VSteps</span>
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <div 
