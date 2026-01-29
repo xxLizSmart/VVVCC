@@ -18,7 +18,7 @@ export default function Dashboard() {
   const [, setLocation] = useLocation();
   const [showQRScanner, setShowQRScanner] = useState(false);
   const [showAvatarUpload, setShowAvatarUpload] = useState(false);
-  const [profileLoading, setProfileLoading] = useState(false);
+  const [profileLoadAttempted, setProfileLoadAttempted] = useState(false);
   const { toast } = useToast();
 
   const handleQRScan = (url: string) => {
@@ -43,16 +43,24 @@ export default function Dashboard() {
   }, [user, loading, setLocation]);
 
   useEffect(() => {
-    if (user && !profile && !profileLoading) {
-      setProfileLoading(true);
+    if (user && !profile && !profileLoadAttempted && !loading) {
+      console.log('Attempting to load profile for user:', user.id);
+      setProfileLoadAttempted(true);
       Promise.all([
         refreshProfile(),
         refreshStats()
-      ]).finally(() => {
-        setProfileLoading(false);
+      ]).then(() => {
+        console.log('Profile and stats loaded successfully');
+      }).catch(err => {
+        console.error('Error loading profile:', err);
+        toast({
+          title: "Profile Load Error",
+          description: "Failed to load profile. Please try refreshing the page.",
+          variant: "destructive"
+        });
       });
     }
-  }, [user, profile, profileLoading]);
+  }, [user, profile, profileLoadAttempted, loading]);
 
   if (loading) {
     return (
@@ -69,12 +77,40 @@ export default function Dashboard() {
     return null;
   }
 
-  if (profileLoading || !profile) {
+  if (!profile && !profileLoadAttempted) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
           <Footprints className="w-12 h-12 mx-auto mb-4 animate-pulse text-primary" />
           <p className="text-muted-foreground">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center space-y-4">
+          <Footprints className="w-12 h-12 mx-auto text-destructive" />
+          <div>
+            <p className="text-muted-foreground mb-4">Profile not found</p>
+            <div className="space-x-2">
+              <Button
+                onClick={async () => {
+                  setProfileLoadAttempted(false);
+                  await refreshProfile();
+                  await refreshStats();
+                }}
+                variant="default"
+              >
+                Retry
+              </Button>
+              <Button onClick={() => signOut()} variant="outline">
+                Sign Out
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     );

@@ -30,17 +30,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const fetchProfile = async (userId: string) => {
     try {
+      console.log('Fetching profile for user:', userId);
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', userId)
-        .single();
-      
+        .maybeSingle();
+
       if (error) {
         console.error('Error fetching profile:', error);
+        return null;
       }
       if (data) {
+        console.log('Profile loaded:', data);
         setProfile(data as Profile);
+      } else {
+        console.warn('No profile found for user:', userId);
       }
       return data;
     } catch (err) {
@@ -51,17 +56,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const fetchStats = async (userId: string) => {
     try {
+      console.log('Fetching stats for user:', userId);
       const { data, error } = await supabase
         .from('user_stats')
         .select('*')
         .eq('user_id', userId)
-        .single();
-      
+        .maybeSingle();
+
       if (error) {
         console.error('Error fetching stats:', error);
+        return null;
       }
       if (data) {
+        console.log('Stats loaded:', data);
         setStats(data as UserStats);
+      } else {
+        console.warn('No stats found for user:', userId);
       }
       return data;
     } catch (err) {
