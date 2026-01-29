@@ -1,0 +1,112 @@
+name: Build VSteps Desktop
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'desktop-app/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'desktop-app/**'
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: desktop-app/package-lock.json
+          
+      - name: Install dependencies
+        working-directory: desktop-app
+        run: npm ci
+        
+      - name: Build Windows installer
+        working-directory: desktop-app
+        run: npm run build:win
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Upload Windows artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: VSteps-Desktop-Windows
+          path: |
+            desktop-app/dist/*.exe
+            desktop-app/dist/*.zip
+          retention-days: 30
+
+  build-mac:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: desktop-app/package-lock.json
+          
+      - name: Install dependencies
+        working-directory: desktop-app
+        run: npm ci
+        
+      - name: Build macOS installer
+        working-directory: desktop-app
+        run: npm run build:mac
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Upload macOS artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: VSteps-Desktop-macOS
+          path: |
+            desktop-app/dist/*.dmg
+            desktop-app/dist/*.zip
+          retention-days: 30
+
+  build-linux:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: desktop-app/package-lock.json
+          
+      - name: Install dependencies
+        working-directory: desktop-app
+        run: npm ci
+        
+      - name: Build Linux installer
+        working-directory: desktop-app
+        run: npm run build:linux
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Upload Linux artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: VSteps-Desktop-Linux
+          path: |
+            desktop-app/dist/*.AppImage
+            desktop-app/dist/*.deb
+          retention-days: 30
