@@ -26,7 +26,7 @@ export default function Login() {
   // Redirect if already logged in
   useEffect(() => {
     if (!authLoading && user) {
-      setLocation('/controller');
+      setLocation('/dashboard');
     }
   }, [user, authLoading, setLocation]);
 
@@ -79,10 +79,10 @@ export default function Login() {
       } else {
         toast({
           title: 'Welcome back!',
-          description: 'Redirecting to controller...',
+          description: 'Redirecting to dashboard...',
         });
         // Immediate redirect for better UX
-        setLocation('/controller');
+        setLocation('/dashboard');
       }
     } catch (err) {
       toast({

@@ -123,15 +123,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setSession(session);
         setUser(session?.user ?? null);
         if (session?.user) {
+          setLoading(false);
           await Promise.all([
             fetchProfile(session.user.id),
             fetchStats(session.user.id)
-          ]);
+          ]).catch(console.error);
         } else {
           setProfile(null);
           setStats(null);
+          setLoading(false);
         }
-        setLoading(false);
       }
     );
 
@@ -152,13 +153,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return { error: new Error(data.error || 'Signup failed') };
       }
 
-      const { error: signInError } = await supabase.auth.signInWithPassword({
+      const { error: signInError, data: signInData } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (signInError) {
         return { error: signInError };
+      }
+
+      if (signInData?.user) {
+        setUser(signInData.user);
+        setSession(signInData.session);
+        await Promise.all([
+          fetchProfile(signInData.user.id),
+          fetchStats(signInData.user.id)
+        ]).catch(console.error);
       }
 
       return { error: null };
@@ -169,7 +179,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signIn = async (email: string, password: string) => {
-    setLoading(true);
     try {
       const { error, data } = await supabase.auth.signInWithPassword({
         email,
@@ -184,8 +193,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         ]).catch(console.error);
       }
       return { error };
-    } finally {
-      setLoading(false);
+    } catch (err) {
+      console.error('Sign in error:', err);
+      return { error: new Error('Network error. Please try again.') };
     }
   };
 

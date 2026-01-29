@@ -27,7 +27,7 @@ export default function Signup() {
   // Redirect if already logged in
   useEffect(() => {
     if (!authLoading && user) {
-      setLocation('/controller');
+      setLocation('/dashboard');
     }
   }, [user, authLoading, setLocation]);
 
@@ -88,10 +88,10 @@ export default function Signup() {
       } else {
         toast({
           title: 'Account Created!',
-          description: 'Welcome to VSteps! Redirecting to controller...',
+          description: 'Welcome to VSteps! Redirecting to dashboard...',
         });
         // Immediate redirect for better UX
-        setLocation('/controller');
+        setLocation('/dashboard');
       }
     } catch (err) {
       toast({

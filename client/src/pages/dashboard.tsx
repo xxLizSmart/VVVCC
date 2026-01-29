@@ -18,6 +18,7 @@ export default function Dashboard() {
   const [, setLocation] = useLocation();
   const [showQRScanner, setShowQRScanner] = useState(false);
   const [showAvatarUpload, setShowAvatarUpload] = useState(false);
+  const [loadingTimeout, setLoadingTimeout] = useState(false);
   const { toast } = useToast();
 
   const handleQRScan = (url: string) => {
@@ -47,7 +48,16 @@ export default function Dashboard() {
     }
   }, [user]);
 
-  if (loading) {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (loading || !profile) {
+        setLoadingTimeout(true);
+      }
+    }, 8000);
+    return () => clearTimeout(timer);
+  }, [loading, profile]);
+
+  if (loading && !loadingTimeout) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
@@ -58,15 +68,36 @@ export default function Dashboard() {
     );
   }
 
-  if (!user || !profile) {
+  if (loadingTimeout && (!user || !profile)) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#0B0C10' }}>
-        <div className="text-center">
-          <Footprints className="w-12 h-12 mx-auto mb-4 animate-pulse text-red-500" />
-          <p className="text-gray-400">Preparing your dashboard...</p>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center space-y-4">
+          <Footprints className="w-12 h-12 mx-auto text-destructive" />
+          <div>
+            <p className="text-muted-foreground mb-4">Connection issue detected</p>
+            <div className="space-x-2">
+              <Button
+                onClick={async () => {
+                  setLoadingTimeout(false);
+                  await refreshProfile();
+                  await refreshStats();
+                }}
+                variant="default"
+              >
+                Retry
+              </Button>
+              <Button onClick={() => setLocation('/login')} variant="outline">
+                Return to Login
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     );
+  }
+
+  if (!user || !profile) {
+    return null;
   }
 
   const trialExpired = isTrialExpired(profile.trial_expires_at);
