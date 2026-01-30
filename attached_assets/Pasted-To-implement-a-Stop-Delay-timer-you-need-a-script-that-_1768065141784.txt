@@ -1,0 +1,86 @@
+To implement a "Stop Delay" timer, you need a script that separates the trigger (receiving a "STEP" signal) from the action (releasing the key).
+
+In both Python and C#, the logic follows this flow:
+
+On Step: Press 'W' and start/reset a countdown timer.
+
+On Timer Finish: Release 'W' only if no new steps arrived during the delay.
+
+1. Python Implementation (using threading)
+Python's threading.Timer is ideal because it allows you to cancel and restart the countdown easily every time a new step packet arrives.
+
+Python
+
+import time
+import threading
+from pynput.keyboard import Controller
+
+keyboard = Controller()
+walk_timer = None
+STOP_DELAY = 0.8  # Seconds to keep holding 'W' after a step
+
+def stop_walking():
+    keyboard.release('w')
+    print("Character Stopped.")
+
+def handle_step_received():
+    global walk_timer
+    
+    # 1. Immediately press 'W' (pynput handles redundant presses gracefully)
+    keyboard.press('w')
+    
+    # 2. Reset the timer: Cancel the old one if it's still running
+    if walk_timer is not None:
+        walk_timer.cancel()
+    
+    # 3. Start a new timer to release the key after STOP_DELAY
+    walk_timer = threading.Timer(STOP_DELAY, stop_walking)
+    walk_timer.start()
+    print("Step detected: Holding 'W'...")
+
+# Simulate receiving steps (e.g., from your UDP listener)
+# handle_step_received() 
+2. C# Implementation (using System.Timers)
+In C#, using a System.Timers.Timer is more efficient than a loop because it runs on a background thread and doesn't freeze your app's UI.
+
+C#
+
+using System;
+using System.Timers;
+using WindowsInput; // Requires InputSimulator NuGet package
+
+public class movementHandler {
+    private static Timer _stopDelayTimer;
+    private static InputSimulator _sim = new InputSimulator();
+    private const double StopDelayMs = 800;
+
+    public static void Initialize() {
+        _stopDelayTimer = new Timer(StopDelayMs);
+        _stopDelayTimer.AutoReset = false; // Only run once per step
+        _stopDelayTimer.Elapsed += (sender, e) => {
+            _sim.Keyboard.KeyUp(VirtualKeyCode.VK_W);
+            Console.WriteLine("Character Stopped.");
+        };
+    }
+
+    public static void OnStepReceived() {
+        // 1. Hold the key
+        _sim.Keyboard.KeyDown(VirtualKeyCode.VK_W);
+
+        // 2. Restart the countdown
+        _stopDelayTimer.Stop();
+        _stopDelayTimer.Start();
+        Console.WriteLine("Walking...");
+    }
+}
+Why this creates "StepL" Smoothness
+The Overlap: If your user takes a step every 0.6s but your delay is 0.8s, the KeyUp command is never reached. The computer sees a continuous "Hold," resulting in a smooth walk.
+
+Redundancy Check: Most modern keyboard libraries (like pynput or InputSimulator) handle redundant KeyDown calls without causing the "repeat-key" stutter that Windows Notepad shows.
+
+Important Tip: The "Sweet Spot"
+A STOP_DELAY of 0.8s (800ms) is usually the "sweet spot" for most gamers.
+
+Too Short (< 0.5s): The character will stutter between steps.
+
+Too Long (> 1.2s): The character will feel like they are "sliding" or hard to stop once the user stops walking.

@@ -1,0 +1,61 @@
+Phase 1: The Replit Project (Server & Phone UI)
+Create a Python (Flask) repl. Paste this prompt into the Replit AI (Ghostwriter) to generate the server and the phone interface.
+
+Copy/Paste this into Replit:
+
+"Create a Flask web application using Flask-SocketIO to act as a motion relay server.
+
+Server (main.py):
+
+Serve an index.html page.
+
+Listen for a WebSocket event called 'step_detected'.
+
+When 'step_detected' is received, immediately broadcast a 'trigger_move' event to all connected clients.
+
+Log these events to the console so I can see them.
+
+Client (templates/index.html):
+
+Create a modern, green-themed UI for mobile (like the STEPL app).
+
+Use the JavaScript DeviceMotion API or Accelerometer to detect when the phone is shaken.
+
+Implement a 'sensitivity' threshold so slight movements don't trigger it, but walking steps do.
+
+When a shake is detected, emit the 'step_detected' event to the server via Socket.IO.
+
+Add a visual counter on the screen that increases every time a step is sent."
+
+Phase 2: The Local Script (The "Key Presser")
+Replit cannot run this part; you must run this on your own computer (using VS Code, PyCharm, or IDLE). This is what actually types "WWWWWW" into your game or Notepad.
+
+Ask Replit to generate this script for you:
+
+"Now, write a separate Python script called local_listener.py that I will run on my own computer.
+
+It should connect to my Replit server using the python-socketio client.
+
+It should listen for the 'trigger_move' event.
+
+Use the pyautogui library to simulate key presses.
+
+Crucial Accuracy Feature: When one move event is received, do not just press 'W' once. Instead, simulate a burst of movement to match a walking stride.
+
+Logic: Rapidly press the 'w' key 50 times over the course of 0.5 seconds (ultra-fast typing).
+
+OR: Hold the 'w' key down for 0.4 seconds and then release it (smooth walking).
+
+Add a 'cooldown' logic so if I shake too fast, the inputs don't lag behind."
+
+Why this specific prompting works:
+The "Burst" Logic: By explicitly asking for "Rapidly press 'w' 50 times" or "Hold for 0.4 seconds," you replicate the video's behavior where one step equals a long stream of characters (distance traveled) rather than a single jerky step.
+
+The Cooldown: Real walking has a rhythm. Without a cooldown (debounce), the sensitive accelerometer might fire 5 times for one step, causing the game to glitch. The prompt handles this.
+
+Socket.IO: This provides the near-instant latency seen in the video (0:24), where the typing stops exactly when the phone stops.
+
+Next Step for You:
+Once you generate the code in Replit, you will need to install the libraries on your local computer to run the listener script.
+
+Would you like me to give you the exact terminal commands to install those local libraries (pyautogui, socketio)?

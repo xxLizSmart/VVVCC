@@ -1,0 +1,39 @@
+"Update the VSteps Mobile App Controller UI and logic based on the existing functional layout.
+
+CRITICAL INSTRUCTIONS: > 1. Apply to Mobile Only: These changes are for the Mobile App UI, not the Desktop. 2. Maintain Layout: Do NOT change the current position of the toggles, sliders, or the layout. 3. Step Logic Precision: Refine the 'Steps Detected' logic. It must distinguish between general 'movement' and an actual 'step.' Only increment the Step Counter when a clear acceleration peak (foot strike) is detected. Ignore minor device shaking or rotation jitter.
+
+Visual Styles (Obsidian & Red):
+
+Background: Deep Obsidian Black (#0B0C10).
+
+Text: Use a clean, tactical white font.
+
+Accents: Use Apex Red (#FF0000) for all active states.
+
+The Waveform: Re-skin the motion visualizer into a 'Laser Pulse Monitor.' The line should be a thin neon red that 'flashes' brighter only when a valid Step is confirmed.
+
+The Slider: Style the 'Stop Delay' (or Sensitivity) slider with a dark grey track and a glowing red neon thumb (#FF0000 with a 10px glow).
+
+The 'W' Toggle: Style the movement toggle as a high-tech 'SYSTEM LINK' switch. When ON, it should glow intense red.
+
+Functional Integrity: Ensure the Step Counter and all sliders remain fully connected to the existing backend locomotion engine and the communication protocol with the Desktop App."
+
+Developer Tip: How to filter "Steps" from "Movement"
+If your current code just looks at if (acceleration > threshold), it will count every little shake. To ensure it "will only be the Steps," you should use a Debounce or a Cooldown in your code.
+
+The "Clean Step" Logic (JS snippet for the Mobile App):
+
+JavaScript
+let lastStepTime = 0;
+const STEP_COOLDOWN = 350; // Milliseconds (Humanly impossible to step faster than this)
+const STEP_THRESHOLD = 12.0; // Adjust based on pocket tightness
+
+if (currentAcceleration > STEP_THRESHOLD) {
+    let now = Date.now();
+    if (now - lastStepTime > STEP_COOLDOWN) {
+        // THIS IS A VALID STEP
+        countStep(); 
+        lastStepTime = now;
+        sendSignalToPC('W_PULSE'); 
+    }
+}

@@ -1,0 +1,57 @@
+Part 1: The JavaScript/React Logic
+This snippet demonstrates how to handle the state and filtering for the deadzone.
+
+JavaScript
+// Deadzone & Pivot Logic for VSteps
+const [isStrafing, setIsStrafing] = useState(null); // 'A', 'D', or null
+const DEADZONE_THRESHOLD = 15; // Degrees
+
+const updateMovement = (currentYaw, calibratedYaw) => {
+  // Normalize angle difference to -180 to 180
+  let diff = currentYaw - calibratedYaw;
+  if (diff > 180) diff -= 360;
+  if (diff < -180) diff += 360;
+
+  if (Math.abs(diff) > DEADZONE_THRESHOLD) {
+    if (diff > 0) {
+      // Pivot Right
+      if (isStrafing !== 'D') {
+        sendKeyToPC('D_DOWN');
+        sendKeyToPC('A_UP');
+        setIsStrafing('D');
+      }
+    } else {
+      // Pivot Left
+      if (isStrafing !== 'A') {
+        sendKeyToPC('A_DOWN');
+        sendKeyToPC('D_UP');
+        setIsStrafing('A');
+      }
+    }
+  } else {
+    // Inside Deadzone - Go Straight
+    if (isStrafing !== null) {
+      sendKeyToPC('A_UP');
+      sendKeyToPC('D_UP');
+      setIsStrafing(null);
+    }
+  }
+};
+Part 2: The Replit AI Implementation Prompt
+Copy and paste this into your Replit AI chat to integrate the sensor and the deadzone logic into your specific files.
+
+"Implement a 'Relative Heading' movement system for the VSteps app using the DeviceOrientation API (specifically the 'absolute' orientation if available).
+
+1. State Management: Create a calibratedYaw state that stores the device's alpha/yaw value when the user clicks a 'Calibrate' button.
+
+2. Deadzone Logic: Implement a handleOrientation function that compares the current yaw to the calibratedYaw. Use a 15-degree deadzone.
+
+If the difference is between -15 and +15 degrees, only send the 'W' (forward) signal.
+
+If the difference exceeds +15 degrees, trigger the 'D' key (Right Strafe).
+
+If the difference is less than -15 degrees, trigger the 'A' key (Left Strafe).
+
+3. Sensor Fusion & Cleanup: Ensure the listener uses a high frequency (at least 60Hz) for gaming responsiveness. Include a useEffect cleanup to remove the event listener when the component unmounts.
+
+4. Visual Feedback: Add a small UI element (like a red needle or a compass ring) that rotates in real-time to show the user their current pivot relative to the deadzone. Highlight the 'A' or 'D' icons in VSteps Red when they are active."

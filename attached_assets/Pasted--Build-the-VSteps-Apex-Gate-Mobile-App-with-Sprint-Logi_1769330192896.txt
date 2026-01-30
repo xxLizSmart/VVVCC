@@ -1,0 +1,44 @@
+"Build the VSteps 'Apex-Gate' Mobile App with Sprint Logic.1. Movement Logic (Strict Mutual Exclusion):Primary Sensor (W & SHIFT): Use XYZ Vector Magnitude $\sqrt{x^2+y^2+z^2}$.Walk (W): Triggered when XYZ is between Level 2.7 (Baseline + 0.4) and Baseline + 1.2.Sprint (SHIFT+W): Triggered when XYZ exceeds Baseline + 1.2 (deliberate fast motion).Steering (A/D): Use Alpha (Yaw) sensor. Trigger at 8°.2. The 'Strict-Gate' Rules:If Alpha > 8°: Send press: d, release: w, shift, a.If Alpha < -8°: Send press: a, release: w, shift, d.If -8° < Alpha < 8°:If XYZ is High: Send press: shift, w, release: a, d.If XYZ is Medium: Send press: w, release: shift, a, d.If No Motion: Send release: shift, w, a, d instantly.3. UI & Hardware:Set Forward Button: Recalibrates Alpha (Yaw) to 0° for pocket use.Sprint Sensitivity Slider: Adjust the threshold for shifting from Walk to Sprint.Haptics: Long pulse for A, double-short for D, sharp vibration for Sprinting.Save Setup: Persists all gating rules and thresholds in localStorage."2. The server.js (Nut-JS with Shift Support)This script runs on your PC. It is optimized to handle the Shift modifier alongside your standard movement keys.JavaScriptconst { keyboard, Key } = require("@nut-tree-fork/nut-js");
+const express = require("express");
+const app = express();
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
+
+// Set to 0 for instant physical keyboard feel
+keyboard.config.autoDelayMs = 0;
+
+io.on("connection", (socket) => {
+    console.log("VSteps Pocket-Pro Connected");
+
+    socket.on("input", async (data) => {
+        // Handle Releases first for strict separation
+        if (data.release) {
+            for (let k of data.release) {
+                const key = getNutKey(k);
+                if (key) await keyboard.releaseKey(key);
+            }
+        }
+
+        // Handle Presses
+        if (data.press) {
+            for (let k of data.press) {
+                const key = getNutKey(k);
+                if (key) await keyboard.pressKey(key);
+            }
+        }
+    });
+});
+
+function getNutKey(k) {
+    switch(k.toLowerCase()) {
+        case 'w': return Key.W;
+        case 'a': return Key.A;
+        case 'd': return Key.D;
+        case 'shift': return Key.LeftShift;
+        default: return null;
+    }
+}
+
+http.listen(3000, () => {
+    console.log("VSteps Server running on port 3000");
+});
