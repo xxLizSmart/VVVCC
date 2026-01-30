@@ -45,3 +45,4 @@ waitForPort = 5000
 [userenv.shared]
 VITE_SUPABASE_URL = "https://yovpgpmlugupsosqxhzk.supabase.co"
 VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlvdnBncG1sdWd1cHNvc3F4aHprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4OTUzNjAsImV4cCI6MjA4NDQ3MTM2MH0.oiu8raaNaxaiPlZ1UcrR4EPcs6n_FfKwWlSCbfLUETw"
+SUPABASE_SERVICE_ROLE_KEY = "sb_secret__tksmZ_riamigEEEwgXQlQ_4YYUk8YL"
