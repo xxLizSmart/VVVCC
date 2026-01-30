@@ -1,11 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 // Validate required environment variables at startup
 if (!supabaseUrl || !supabaseServiceKey) {
-  console.error('FATAL: SUPABASE_URL and SUPABASE_SERVICE_KEY environment variables are required');
+  console.error('FATAL: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY environment variables are required');
   // Don't exit in production - allow graceful degradation
 }
 
