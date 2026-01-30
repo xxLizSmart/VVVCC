@@ -10,434 +10,234 @@
       padding: 0;
       box-sizing: border-box;
     }
-    
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
+      background: #0a0a0a;
       color: #e0e0e0;
       min-height: 100vh;
-      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
     }
-    
+
     .app-container {
       display: flex;
+      flex-direction: column;
       height: 100vh;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 24px;
     }
-    
-    .sidebar {
-      width: 320px;
-      background: rgba(0,0,0,0.4);
-      border-right: 1px solid rgba(255,255,255,0.08);
-      padding: 20px;
-      overflow-y: auto;
-      flex-shrink: 0;
-    }
-    
-    .main-content {
-      flex: 1;
-      padding: 20px;
-      overflow-y: auto;
-    }
-    
+
     .header {
       display: flex;
       align-items: center;
-      gap: 14px;
-      margin-bottom: 24px;
-      padding-bottom: 18px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      gap: 12px;
+      margin-bottom: 32px;
     }
-    
+
     .logo {
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       border-radius: 10px;
       background: linear-gradient(135deg, #dc2626, #991b1b);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
-    }
-    
-    h1 {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 700;
       color: #fff;
     }
-    
-    .subtitle {
-      color: #666;
+
+    .header-text h1 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .header-text p {
       font-size: 12px;
+      color: #666;
       margin-top: 2px;
     }
-    
+
     .card {
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 14px;
-      padding: 18px;
+      border-radius: 16px;
+      padding: 20px;
       margin-bottom: 16px;
     }
-    
-    .card-title {
-      font-size: 11px;
-      font-weight: 600;
-      color: #888;
-      margin-bottom: 14px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    
-    .status-row {
+
+    .status-section {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 12px;
+      margin-bottom: 20px;
     }
-    
+
     .status-dot {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      background: #444;
+      background: #333;
       transition: all 0.3s;
     }
-    
+
     .status-dot.connected {
       background: #22c55e;
-      box-shadow: 0 0 12px rgba(34, 197, 94, 0.5);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
     }
-    
-    .status-dot.p2p {
-      background: #3b82f6;
-      box-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
-    }
-    
+
     .status-dot.connecting {
       background: #eab308;
       animation: pulse 1s infinite;
     }
-    
+
+    .status-dot.p2p {
+      background: #3b82f6;
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+    }
+
     @keyframes pulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.4; }
     }
-    
-    .status-info {
+
+    .status-text {
       flex: 1;
     }
-    
-    .status-text {
-      font-weight: 600;
+
+    .status-text .main {
       font-size: 14px;
+      font-weight: 500;
       color: #fff;
     }
-    
-    .status-sub {
+
+    .status-text .sub {
       font-size: 11px;
-      color: #666;
+      color: #555;
       margin-top: 2px;
     }
-    
+
     .p2p-badge {
       font-size: 10px;
-      padding: 4px 10px;
-      border-radius: 20px;
+      padding: 4px 8px;
+      border-radius: 12px;
       background: rgba(59, 130, 246, 0.15);
       color: #3b82f6;
       font-weight: 600;
       display: none;
     }
-    
+
     .p2p-badge.active {
       display: inline-block;
     }
-    
-    .input-group {
-      margin-bottom: 14px;
-    }
-    
-    .input-group label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 12px;
-      color: #888;
-    }
-    
-    .input-group input {
-      width: 100%;
-      padding: 12px 14px;
-      background: rgba(0,0,0,0.4);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 8px;
-      color: #fff;
-      font-size: 13px;
-      font-family: 'SF Mono', Monaco, monospace;
-      transition: border-color 0.2s;
-    }
-    
-    .input-group input:focus {
-      outline: none;
-      border-color: #dc2626;
-    }
-    
-    .input-group input::placeholder {
-      color: #555;
-    }
-    
-    .btn {
-      width: 100%;
-      padding: 12px 18px;
-      border: none;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .btn-primary {
-      background: linear-gradient(135deg, #dc2626, #b91c1c);
-      color: #fff;
-    }
-    
-    .btn-primary:hover {
-      background: linear-gradient(135deg, #ef4444, #dc2626);
-      transform: translateY(-1px);
-    }
-    
-    .btn-primary:active {
-      transform: translateY(0);
-    }
-    
-    .btn-secondary {
-      background: rgba(255,255,255,0.08);
-      color: #ccc;
-      margin-top: 8px;
-    }
-    
-    .btn-secondary:hover {
-      background: rgba(255,255,255,0.12);
-    }
-    
-    .btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-    
-    .stat-box {
-      background: rgba(0,0,0,0.3);
-      border-radius: 10px;
-      padding: 16px;
+
+    .session-display {
       text-align: center;
+      padding: 16px 0;
     }
-    
-    .stat-value {
-      font-size: 32px;
-      font-weight: 800;
-      line-height: 1;
-      font-family: 'SF Mono', Monaco, monospace;
+
+    .session-code-box {
+      background: rgba(0,0,0,0.4);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
     }
-    
-    .stat-label {
-      font-size: 10px;
+
+    .session-label {
+      font-size: 11px;
       color: #666;
       text-transform: uppercase;
-      margin-top: 6px;
-      letter-spacing: 0.5px;
-    }
-    
-    .color-forward { color: #dc2626; }
-    .color-jump { color: #a855f7; }
-    .color-sprint { color: #f97316; }
-    
-    .direction-display {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      margin: 20px 0;
-    }
-    
-    .direction-key {
-      width: 60px;
-      height: 60px;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      font-weight: 700;
-      color: #555;
-      transition: all 0.1s;
-    }
-    
-    .direction-key.active {
-      background: rgba(220, 38, 38, 0.2);
-      border-color: #dc2626;
-      color: #dc2626;
-      box-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
-    }
-    
-    .direction-key.active-jump {
-      background: rgba(168, 85, 247, 0.2);
-      border-color: #a855f7;
-      color: #a855f7;
-      box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
-    }
-    
-    .direction-key.active-sprint {
-      background: rgba(249, 115, 22, 0.2);
-      border-color: #f97316;
-      color: #f97316;
-      box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
-    }
-    
-    .activity-log {
-      background: rgba(0,0,0,0.4);
-      border-radius: 10px;
-      height: 300px;
-      overflow-y: auto;
-      font-family: 'SF Mono', Monaco, Consolas, monospace;
-      font-size: 11px;
-    }
-    
-    .log-entry {
-      padding: 10px 14px;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-    }
-    
-    .log-entry:last-child {
-      border-bottom: none;
-    }
-    
-    .log-time {
-      color: #444;
-      flex-shrink: 0;
-      font-size: 10px;
-    }
-    
-    .log-icon {
-      width: 18px;
-      height: 18px;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      flex-shrink: 0;
-    }
-    
-    .log-icon.forward { background: rgba(220,38,38,0.2); color: #dc2626; }
-    .log-icon.jump { background: rgba(168,85,247,0.2); color: #a855f7; }
-    .log-icon.sprint { background: rgba(249,115,22,0.2); color: #f97316; }
-    .log-icon.info { background: rgba(59,130,246,0.2); color: #3b82f6; }
-    .log-icon.success { background: rgba(34,197,94,0.2); color: #22c55e; }
-    .log-icon.warning { background: rgba(234,179,8,0.2); color: #eab308; }
-    .log-icon.error { background: rgba(239,68,68,0.2); color: #ef4444; }
-    
-    .log-message {
-      flex: 1;
-      color: #aaa;
-      word-break: break-word;
-    }
-    
-    .slider-group {
-      margin-bottom: 18px;
-    }
-    
-    .slider-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      letter-spacing: 1px;
       margin-bottom: 8px;
     }
-    
-    .slider-label {
+
+    .session-code {
+      font-size: 32px;
+      font-weight: 700;
+      color: #22c55e;
+      font-family: 'SF Mono', Monaco, monospace;
+      letter-spacing: 6px;
+    }
+
+    .qr-container {
+      margin: 16px 0;
+    }
+
+    .qr-container img {
+      max-width: 160px;
+      border-radius: 8px;
+    }
+
+    .phone-status {
       font-size: 12px;
-      color: #999;
+      color: #888;
+      margin-top: 12px;
     }
-    
-    .slider-value {
+
+    .phone-status.connected {
+      color: #22c55e;
+    }
+
+    .counter-section {
+      text-align: center;
+      padding: 24px 0;
+    }
+
+    .counter-value {
+      font-size: 72px;
+      font-weight: 800;
+      color: #dc2626;
+      font-family: 'SF Mono', Monaco, monospace;
+      line-height: 1;
+    }
+
+    .counter-label {
       font-size: 12px;
-      font-weight: 600;
-      color: #fff;
-      background: rgba(220,38,38,0.2);
-      padding: 3px 10px;
-      border-radius: 6px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 8px;
     }
-    
-    input[type="range"] {
-      width: 100%;
-      height: 6px;
-      -webkit-appearance: none;
-      background: rgba(255,255,255,0.08);
-      border-radius: 3px;
-      outline: none;
-    }
-    
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 18px;
-      height: 18px;
-      background: linear-gradient(135deg, #dc2626, #991b1b);
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.4);
-    }
-    
-    .toggle-group {
+
+    .toggle-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 16px 0;
     }
-    
-    .toggle-group:last-child {
-      border-bottom: none;
-    }
-    
+
     .toggle-info {
       display: flex;
       flex-direction: column;
       gap: 2px;
     }
-    
+
     .toggle-label {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 500;
       color: #ddd;
     }
-    
+
     .toggle-desc {
       font-size: 11px;
       color: #555;
     }
-    
+
     .toggle-switch {
       position: relative;
-      width: 46px;
-      height: 26px;
+      width: 44px;
+      height: 24px;
     }
-    
+
     .toggle-switch input {
       opacity: 0;
       width: 0;
       height: 0;
     }
-    
+
     .toggle-slider {
       position: absolute;
       cursor: pointer;
@@ -446,442 +246,326 @@
       right: 0;
       bottom: 0;
       background: rgba(255,255,255,0.1);
-      border-radius: 13px;
+      border-radius: 12px;
       transition: 0.3s;
     }
-    
+
     .toggle-slider:before {
       position: absolute;
       content: "";
-      height: 20px;
-      width: 20px;
+      height: 18px;
+      width: 18px;
       left: 3px;
       bottom: 3px;
       background: #fff;
       border-radius: 50%;
       transition: 0.3s;
     }
-    
+
     .toggle-switch input:checked + .toggle-slider {
       background: linear-gradient(135deg, #dc2626, #991b1b);
     }
-    
+
     .toggle-switch input:checked + .toggle-slider:before {
       transform: translateX(20px);
     }
-    
-    .version-tag {
+
+    .log-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .log-header {
+      font-size: 11px;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .log-container {
+      flex: 1;
+      background: rgba(0,0,0,0.3);
+      border-radius: 12px;
+      overflow-y: auto;
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 11px;
+    }
+
+    .log-entry {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .log-entry:last-child {
+      border-bottom: none;
+    }
+
+    .log-time {
+      color: #444;
+      flex-shrink: 0;
+      font-size: 10px;
+    }
+
+    .log-icon {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      flex-shrink: 0;
+    }
+
+    .log-icon.info { background: rgba(59,130,246,0.2); color: #3b82f6; }
+    .log-icon.success { background: rgba(34,197,94,0.2); color: #22c55e; }
+    .log-icon.warning { background: rgba(234,179,8,0.2); color: #eab308; }
+    .log-icon.error { background: rgba(239,68,68,0.2); color: #ef4444; }
+
+    .log-message {
+      flex: 1;
+      color: #888;
+      word-break: break-word;
+    }
+
+    .version {
       text-align: center;
       font-size: 10px;
-      color: #444;
+      color: #333;
       margin-top: 16px;
     }
-    
+
     ::-webkit-scrollbar {
-      width: 6px;
+      width: 4px;
     }
-    
+
     ::-webkit-scrollbar-track {
       background: transparent;
     }
-    
+
     ::-webkit-scrollbar-thumb {
       background: rgba(255,255,255,0.1);
-      border-radius: 3px;
-    }
-    
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(255,255,255,0.2);
+      border-radius: 2px;
     }
   </style>
 </head>
 <body>
   <div class="app-container">
-    <div class="sidebar">
-      <div class="header">
-        <div class="logo">V</div>
-        <div>
-          <h1>VSteps Desktop</h1>
-          <p class="subtitle">Walk in place to control games</p>
-        </div>
+    <div class="header">
+      <div class="logo">V</div>
+      <div class="header-text">
+        <h1>VSteps Desktop</h1>
+        <p>Walk controller</p>
       </div>
-      
-      <div class="card">
-        <div class="card-title">Connection</div>
-        <div class="status-row">
-          <div class="status-dot connecting" id="statusDot" data-testid="status-dot"></div>
-          <div class="status-info">
-            <div class="status-text" id="statusText" data-testid="text-status">Connecting...</div>
-            <div class="status-sub" id="serverUrl" data-testid="text-server-url">vsteps.org</div>
-          </div>
-          <span class="p2p-badge" id="p2pBadge" data-testid="badge-p2p">P2P 5-15ms</span>
-        </div>
-        <input type="hidden" id="serverInput" value="https://vsteps.org" data-testid="input-server-url">
-      </div>
-      
-      <div class="card" id="qrCard">
-        <div class="card-title">Scan with Phone</div>
-        <div style="text-align: center; padding: 10px 0;">
-          <div id="sessionIdDisplay" style="background: #2a2a2a; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
-            <p style="font-size: 11px; color: #888; margin: 0 0 4px 0;">Session Code</p>
-            <p id="sessionCode" style="font-size: 28px; font-weight: bold; color: #22c55e; font-family: monospace; letter-spacing: 4px; margin: 0;" data-testid="text-session-code">------</p>
-          </div>
-          <img id="qrCodeImg" alt="QR Code" style="max-width: 180px; border-radius: 8px;" data-testid="img-qrcode">
-          <p style="font-size: 11px; color: #888; margin-top: 10px;">Scan QR or enter code at:</p>
-          <a href="https://vsteps.org/controller" target="_blank" style="font-size: 12px; color: #dc2626; font-family: monospace; margin-top: 6px; display: block; text-decoration: underline;" id="qrUrl" data-testid="text-qr-url">https://vsteps.org/controller</a>
-          <p id="phoneStatus" style="font-size: 12px; color: #888; margin-top: 8px;" data-testid="text-phone-status">Waiting for phone...</p>
-        </div>
-      </div>
-      
-      <div class="card">
-        <div class="card-title">Settings</div>
-        
-        <div class="slider-group">
-          <div class="slider-header">
-            <span class="slider-label">Key Hold Duration</span>
-            <span class="slider-value" id="holdValue" data-testid="text-hold-value">800ms</span>
-          </div>
-          <input type="range" id="holdSlider" min="300" max="2000" value="800" step="50" data-testid="slider-hold-duration">
-        </div>
-        
-        <div class="toggle-group">
-          <div class="toggle-info">
-            <span class="toggle-label">Block Physical W Key</span>
-            <span class="toggle-desc">Prevent double input while walking</span>
-          </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="disableWKeyToggle" data-testid="toggle-disable-w">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-        
-        <div class="toggle-group">
-          <div class="toggle-info">
-            <span class="toggle-label">Tilt-to-Mouse Steering</span>
-            <span class="toggle-desc">Enable phone tilt to control mouse X-axis</span>
-          </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="steerEnabledToggle" data-testid="toggle-steer">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-      </div>
-      
-      <div class="card" id="tiltCard" style="display:none">
-        <div class="card-title">Tilt Steering</div>
-        <div class="tilt-bar-container" style="height: 24px; background: rgba(255,255,255,0.05); border-radius: 6px; position: relative; overflow: hidden; margin-bottom: 12px;">
-          <div style="position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: rgba(255,255,255,0.2);"></div>
-          <div id="tiltIndicator" style="position: absolute; top: 50%; left: 50%; width: 12px; height: 18px; background: #3b82f6; border-radius: 4px; transform: translate(-50%, -50%); transition: left 0.05s;"></div>
-        </div>
-        <div style="display: flex; justify-content: space-between; font-size: 11px; color: #666;">
-          <span>Left</span>
-          <span id="tiltValue" style="color: #fff; font-family: monospace;">0.0</span>
-          <span>Right</span>
-        </div>
-      </div>
-      
-      <div class="version-tag">VSteps Desktop v2.1 - WebRTC P2P + QR Connect</div>
     </div>
-    
-    <div class="main-content">
-      <div class="card">
-        <div class="card-title">Step Counter</div>
-        
-        <div class="direction-display">
-          <div class="direction-key" id="keyW" data-testid="key-w">W</div>
-          <div class="direction-key" id="keyShift" data-testid="key-shift">SHIFT</div>
-          <div class="direction-key" id="keySpace" data-testid="key-space">SPACE</div>
+
+    <div class="card">
+      <div class="status-section">
+        <div class="status-dot connecting" id="statusDot"></div>
+        <div class="status-text">
+          <div class="main" id="statusText">Connecting...</div>
+          <div class="sub" id="serverUrl">vsteps.org</div>
         </div>
-        
-        <div class="stats-grid">
-          <div class="stat-box">
-            <div class="stat-value color-forward" id="forwardCount" data-testid="text-forward-count">0</div>
-            <div class="stat-label">Forward (W)</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-value color-sprint" id="sprintCount" data-testid="text-sprint-count">0</div>
-            <div class="stat-label">Sprint (Shift)</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-value color-jump" id="jumpCount" data-testid="text-jump-count">0</div>
-            <div class="stat-label">Jump (Space)</div>
-          </div>
-        </div>
+        <span class="p2p-badge" id="p2pBadge">P2P</span>
       </div>
-      
-      <div class="card">
-        <div class="card-title">Live Activity Log</div>
-        <div class="activity-log" id="activityLog" data-testid="log-activity">
-          <div class="log-entry">
-            <span class="log-time">--:--:--</span>
-            <span class="log-icon info">i</span>
-            <span class="log-message">Waiting for connection...</span>
-          </div>
+
+      <div class="session-display">
+        <div class="session-code-box">
+          <div class="session-label">Session Code</div>
+          <div class="session-code" id="sessionCode">------</div>
+        </div>
+        <div class="qr-container">
+          <img id="qrCodeImg" alt="QR Code" style="display: none;">
+        </div>
+        <div class="phone-status" id="phoneStatus">Waiting for phone...</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="counter-section">
+        <div class="counter-value" id="stepCounter">0</div>
+        <div class="counter-label">Steps</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <span class="toggle-label">Block Physical W Key</span>
+          <span class="toggle-desc">Prevent double input while walking</span>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="disableWKeyToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="log-section">
+      <div class="log-header">Connection Log</div>
+      <div class="log-container" id="activityLog">
+        <div class="log-entry">
+          <span class="log-time">--:--:--</span>
+          <span class="log-icon info">i</span>
+          <span class="log-message">Starting...</span>
         </div>
       </div>
     </div>
+
+    <div class="version">VSteps Desktop v2.1</div>
   </div>
 
   <script>
-    // Wrap all code in try-catch to prevent renderer crashes
     try {
-    const { vsteps } = window;
-    
-    if (!vsteps) {
-      console.error('VSteps API not available');
-    }
-    
-    const statusDot = document.getElementById('statusDot');
-    const statusText = document.getElementById('statusText');
-    const serverUrl = document.getElementById('serverUrl');
-    const p2pBadge = document.getElementById('p2pBadge');
-    const serverInput = document.getElementById('serverInput');
-    const qrCard = document.getElementById('qrCard');
-    const qrCodeImg = document.getElementById('qrCodeImg');
-    const qrUrl = document.getElementById('qrUrl');
-    const holdSlider = document.getElementById('holdSlider');
-    const holdValue = document.getElementById('holdValue');
-    const disableWKeyToggle = document.getElementById('disableWKeyToggle');
-    const activityLog = document.getElementById('activityLog');
-    
-    const forwardCount = document.getElementById('forwardCount');
-    const sprintCount = document.getElementById('sprintCount');
-    const jumpCount = document.getElementById('jumpCount');
-    
-    const keyW = document.getElementById('keyW');
-    const keyShift = document.getElementById('keyShift');
-    const keySpace = document.getElementById('keySpace');
-    
-    let isConnected = false;
-    let keyTimeouts = {};
-    let reconnectTimeout = null;
-    
-    function flashKey(keyEl, className = 'active', duration = 300) {
-      if (!keyEl) return;
-      keyEl.classList.add(className);
-      if (keyTimeouts[keyEl.id]) clearTimeout(keyTimeouts[keyEl.id]);
-      keyTimeouts[keyEl.id] = setTimeout(() => {
-        keyEl.classList.remove(className);
-      }, duration);
-    }
-    
-    function addLogEntry(entry) {
-      if (!activityLog) return;
-      
-      const iconMap = {
-        forward: '↑',
-        jump: '⬆',
-        sprint: '⚡',
-        info: 'i',
-        success: '✓',
-        warning: '!',
-        error: '✗'
-      };
-      
-      const logEntry = document.createElement('div');
-      logEntry.className = 'log-entry';
-      logEntry.innerHTML = `
-        <span class="log-time">${entry.timestamp || new Date().toLocaleTimeString()}</span>
-        <span class="log-icon ${entry.type}">${iconMap[entry.type] || '•'}</span>
-        <span class="log-message">${entry.message}</span>
-      `;
-      
-      activityLog.insertBefore(logEntry, activityLog.firstChild);
-      
-      while (activityLog.children.length > 100) {
-        activityLog.removeChild(activityLog.lastChild);
+      const { vsteps } = window;
+
+      if (!vsteps) {
+        console.error('VSteps API not available');
       }
-    }
-    
-    // Session state
-    let currentSessionId = null;
-    const sessionCodeEl = document.getElementById('sessionCode');
-    const phoneStatusEl = document.getElementById('phoneStatus');
-    
-    // Generate QR code with session ID
-    async function generateQRWithSession(sessionId, retryCount = 0) {
-      try {
-        const controllerUrl = `https://vsteps.org/controller?session=${sessionId}`;
-        
-        // Generate QR code directly with the session URL
-        const result = await vsteps.generateQRCode(controllerUrl);
-        
-        if (result && result.success && result.dataUrl) {
-          qrCodeImg.src = result.dataUrl;
-          qrCodeImg.style.display = 'block';
-          qrUrl.textContent = controllerUrl;
-          qrUrl.href = controllerUrl;
-          addLogEntry({ type: 'info', message: `QR Code ready - Session: ${sessionId}` });
+
+      const statusDot = document.getElementById('statusDot');
+      const statusText = document.getElementById('statusText');
+      const serverUrl = document.getElementById('serverUrl');
+      const p2pBadge = document.getElementById('p2pBadge');
+      const sessionCode = document.getElementById('sessionCode');
+      const qrCodeImg = document.getElementById('qrCodeImg');
+      const phoneStatus = document.getElementById('phoneStatus');
+      const stepCounter = document.getElementById('stepCounter');
+      const disableWKeyToggle = document.getElementById('disableWKeyToggle');
+      const activityLog = document.getElementById('activityLog');
+
+      let isConnected = false;
+      let reconnectTimeout = null;
+
+      function addLogEntry(entry) {
+        if (!activityLog) return;
+
+        const iconMap = {
+          info: 'i',
+          success: 'o',
+          warning: '!',
+          error: 'x'
+        };
+
+        const logEntry = document.createElement('div');
+        logEntry.className = 'log-entry';
+        logEntry.innerHTML = `
+          <span class="log-time">${entry.timestamp || new Date().toLocaleTimeString()}</span>
+          <span class="log-icon ${entry.type}">${iconMap[entry.type] || 'i'}</span>
+          <span class="log-message">${entry.message}</span>
+        `;
+
+        activityLog.insertBefore(logEntry, activityLog.firstChild);
+
+        while (activityLog.children.length > 50) {
+          activityLog.removeChild(activityLog.lastChild);
+        }
+      }
+
+      async function generateQRWithSession(sessionId) {
+        try {
+          const controllerUrl = `https://vsteps.org/controller?session=${sessionId}`;
+          const result = await vsteps.generateQRCode(controllerUrl);
+
+          if (result && result.success && result.dataUrl) {
+            qrCodeImg.src = result.dataUrl;
+            qrCodeImg.style.display = 'block';
+          }
+        } catch (err) {
+          console.error('QR generation error:', err);
+        }
+      }
+
+      vsteps.onSessionCreated && vsteps.onSessionCreated((data) => {
+        sessionCode.textContent = data.sessionId;
+        phoneStatus.textContent = 'Waiting for phone...';
+        phoneStatus.classList.remove('connected');
+        generateQRWithSession(data.sessionId);
+      });
+
+      vsteps.onPhoneConnected && vsteps.onPhoneConnected(() => {
+        phoneStatus.textContent = 'Phone Connected';
+        phoneStatus.classList.add('connected');
+        addLogEntry({ type: 'success', message: 'Phone connected - start walking!' });
+      });
+
+      disableWKeyToggle.addEventListener('change', (e) => {
+        vsteps.toggleDisableWKey(e.target.checked);
+      });
+
+      vsteps.onConnectionStatus((status) => {
+        isConnected = status === 'connected';
+        statusDot.classList.remove('connecting');
+
+        if (reconnectTimeout) {
+          clearTimeout(reconnectTimeout);
+          reconnectTimeout = null;
+        }
+
+        if (status === 'error') {
+          statusDot.classList.remove('connected');
+          statusText.textContent = 'Reconnecting...';
+          reconnectTimeout = setTimeout(() => {
+            vsteps.connect('https://vsteps.org');
+            statusDot.classList.add('connecting');
+            statusText.textContent = 'Connecting...';
+          }, 5000);
+          return;
+        }
+
+        if (isConnected) {
+          statusDot.classList.add('connected');
+          statusText.textContent = 'Connected';
         } else {
-          console.error('QR generation failed:', result?.error || 'Unknown error');
-          if (retryCount < 3) {
-            setTimeout(() => generateQRWithSession(sessionId, retryCount + 1), 1000);
-          } else {
-            qrCodeImg.style.display = 'none';
-            qrUrl.textContent = controllerUrl;
-            qrUrl.href = controllerUrl;
-            addLogEntry({ type: 'warning', message: 'QR unavailable - use link or code' });
-          }
-        }
-      } catch (err) {
-        console.error('QR generation error:', err);
-        if (retryCount < 3) {
-          setTimeout(() => generateQRWithSession(sessionId, retryCount + 1), 1000);
-        }
-      }
-    }
-    
-    // Listen for session created event
-    vsteps.onSessionCreated && vsteps.onSessionCreated((data) => {
-      currentSessionId = data.sessionId;
-      sessionCodeEl.textContent = data.sessionId;
-      phoneStatusEl.textContent = 'Waiting for phone...';
-      phoneStatusEl.style.color = '#888';
-      generateQRWithSession(data.sessionId);
-    });
-    
-    // Listen for phone connected event
-    vsteps.onPhoneConnected && vsteps.onPhoneConnected((data) => {
-      phoneStatusEl.textContent = '✓ Phone Connected!';
-      phoneStatusEl.style.color = '#22c55e';
-      addLogEntry({ type: 'success', message: 'Phone connected! Start walking.' });
-    });
-    
-    // Listen for auto-connect event
-    vsteps.onAutoConnect && vsteps.onAutoConnect((url) => {
-      serverInput.value = url;
-      statusDot.classList.add('connecting');
-      statusText.textContent = 'Connecting...';
-    });
-    
-    holdSlider.addEventListener('input', (e) => {
-      const value = parseInt(e.target.value);
-      holdValue.textContent = `${value}ms`;
-      vsteps.updateSettings({ holdDuration: value });
-    });
-    
-    disableWKeyToggle.addEventListener('change', (e) => {
-      vsteps.toggleDisableWKey(e.target.checked);
-    });
-    
-    const steerEnabledToggle = document.getElementById('steerEnabledToggle');
-    const tiltCard = document.getElementById('tiltCard');
-    const tiltIndicator = document.getElementById('tiltIndicator');
-    const tiltValue = document.getElementById('tiltValue');
-    
-    steerEnabledToggle.addEventListener('change', (e) => {
-      vsteps.toggleSteerEnabled(e.target.checked);
-      tiltCard.style.display = e.target.checked ? 'block' : 'none';
-    });
-    
-    vsteps.onTilt((data) => {
-      const tilt = data.adjustedTilt || 0;
-      const pct = Math.max(0, Math.min(100, 50 + tilt * 1.5));
-      tiltIndicator.style.left = pct + '%';
-      tiltValue.textContent = tilt.toFixed(1);
-    });
-    
-    vsteps.onSteerStatus((status) => {
-      steerEnabledToggle.checked = status.enabled;
-      tiltCard.style.display = status.enabled ? 'block' : 'none';
-    });
-    
-    vsteps.onConnectionStatus((status) => {
-      isConnected = status === 'connected';
-      if (statusDot) statusDot.classList.remove('connecting');
-      
-      // Clear any pending reconnect
-      if (reconnectTimeout) {
-        clearTimeout(reconnectTimeout);
-        reconnectTimeout = null;
-      }
-      
-      if (status === 'error') {
-        if (statusDot) statusDot.classList.remove('connected');
-        if (statusText) statusText.textContent = 'Reconnecting...';
-        if (serverUrl) serverUrl.textContent = 'vsteps.org';
-        // Auto-retry connection after 5 seconds
-        reconnectTimeout = setTimeout(() => {
-          if (vsteps && vsteps.connect) {
+          statusDot.classList.remove('connected', 'p2p');
+          p2pBadge.classList.remove('active');
+          statusText.textContent = 'Reconnecting...';
+          reconnectTimeout = setTimeout(() => {
             vsteps.connect('https://vsteps.org');
-            if (statusDot) statusDot.classList.add('connecting');
-            if (statusText) statusText.textContent = 'Connecting...';
-          }
-        }, 5000);
-        return;
-      }
-      
-      if (isConnected) {
-        if (statusDot) statusDot.classList.add('connected');
-        if (statusText) statusText.textContent = 'Connected';
-        if (serverUrl) serverUrl.textContent = 'vsteps.org';
-      } else {
-        if (statusDot) statusDot.classList.remove('connected', 'p2p');
-        if (p2pBadge) p2pBadge.classList.remove('active');
-        if (statusText) statusText.textContent = 'Reconnecting...';
-        if (serverUrl) serverUrl.textContent = 'vsteps.org';
-        // Auto-retry connection after 5 seconds
-        reconnectTimeout = setTimeout(() => {
-          if (vsteps && vsteps.connect) {
-            vsteps.connect('https://vsteps.org');
-            if (statusDot) statusDot.classList.add('connecting');
-            if (statusText) statusText.textContent = 'Connecting...';
-          }
-        }, 5000);
-      }
-    });
-    
-    vsteps.onP2PStatus((status) => {
-      if (status.connected) {
-        if (statusDot) statusDot.classList.add('p2p');
-        if (p2pBadge) p2pBadge.classList.add('active');
-        if (statusText) statusText.textContent = 'P2P Connected';
-      } else {
-        if (statusDot) statusDot.classList.remove('p2p');
-        if (p2pBadge) p2pBadge.classList.remove('active');
-        if (isConnected && statusText) {
-          statusText.textContent = 'Connected (WebSocket)';
+            statusDot.classList.add('connecting');
+            statusText.textContent = 'Connecting...';
+          }, 5000);
         }
-      }
-    });
-    
-    vsteps.onMovement((data) => {
-      if (data.direction === 'forward') {
-        flashKey(keyW, 'active', data.holdDuration || 800);
-        if (data.isSprint) {
-          flashKey(keyShift, 'active-sprint', data.holdDuration || 800);
+      });
+
+      vsteps.onP2PStatus((status) => {
+        if (status.connected) {
+          statusDot.classList.add('p2p');
+          p2pBadge.classList.add('active');
+          statusText.textContent = 'P2P Connected';
+        } else {
+          statusDot.classList.remove('p2p');
+          p2pBadge.classList.remove('active');
+          if (isConnected) {
+            statusText.textContent = 'Connected';
+          }
         }
-      }
-    });
-    
-    vsteps.onJump(() => {
-      flashKey(keySpace, 'active-jump', 150);
-    });
-    
-    vsteps.onStats((stats) => {
-      if (forwardCount) forwardCount.textContent = stats.forward || 0;
-      if (sprintCount) sprintCount.textContent = stats.sprint || 0;
-      if (jumpCount) jumpCount.textContent = stats.jump || 0;
-    });
-    
-    vsteps.onActivityLog((entry) => {
-      addLogEntry(entry);
-    });
-    
-    vsteps.onServerFound((url) => {
-      if (serverInput) serverInput.value = url;
-      addLogEntry({ type: 'info', message: `Auto-discovered server: ${url}` });
-    });
-    
-    vsteps.onWKeyBlockStatus((status) => {
-      if (!status.success && disableWKeyToggle) {
-        disableWKeyToggle.checked = false;
-        addLogEntry({ type: 'error', message: `W-key blocking failed: ${status.error}` });
-      }
-    });
-    
-    vsteps.getStatus();
-    
+      });
+
+      vsteps.onStats((stats) => {
+        const total = (stats.forward || 0);
+        stepCounter.textContent = total;
+      });
+
+      vsteps.onActivityLog((entry) => {
+        addLogEntry(entry);
+      });
+
+      vsteps.onWKeyBlockStatus((status) => {
+        if (!status.success) {
+          disableWKeyToggle.checked = false;
+          addLogEntry({ type: 'error', message: `W-key blocking failed: ${status.error}` });
+        }
+      });
+
+      vsteps.getStatus();
+
     } catch (err) {
       console.error('VSteps UI initialization error:', err);
     }

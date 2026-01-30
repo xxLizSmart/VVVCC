@@ -288,6 +288,13 @@ class ConnectionManager extends EventEmitter {
     this.socket.on('phone-settings', (data) => {
       this.emit('phone-settings', data);
     });
+
+    this.socket.on('step-count-sync', (data) => {
+      if (data && typeof data.count === 'number') {
+        this.stats.forward = data.count;
+        this.emit('stats-update', this.stats);
+      }
+    });
     
     // PVP spectator events (for desktop viewing)
     this.socket.on('pvp-update', (data) => {

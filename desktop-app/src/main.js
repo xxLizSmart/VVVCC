@@ -37,16 +37,16 @@ const DEFAULT_SERVER_URL = 'https://vsteps.org';
 // Simple window creation - runs first before anything else
 function createWindow() {
   console.log('[MAIN] Creating window...');
-  
+
   mainWindow = new BrowserWindow({
-    width: 950,
-    height: 750,
-    minWidth: 850,
-    minHeight: 650,
+    width: 520,
+    height: 800,
+    minWidth: 400,
+    minHeight: 600,
     resizable: true,
     frame: true,
     show: true,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#0a0a0a',
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -125,10 +125,13 @@ function createTray() {
 
 const sendLog = (entry) => {
   if (mainWindow && !mainWindow.isDestroyed()) {
-    mainWindow.webContents.send('activity-log', {
-      ...entry,
-      timestamp: new Date().toLocaleTimeString()
-    });
+    const connectionTypes = ['info', 'success', 'warning', 'error'];
+    if (connectionTypes.includes(entry.type)) {
+      mainWindow.webContents.send('activity-log', {
+        ...entry,
+        timestamp: new Date().toLocaleTimeString()
+      });
+    }
   }
 };
 
